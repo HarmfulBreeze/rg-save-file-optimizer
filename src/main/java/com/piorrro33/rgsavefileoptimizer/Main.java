@@ -84,9 +84,15 @@ public class Main implements Callable<Integer> {
                 inChannel.read(bb);
                 System.out.println("Editing header...");
                 bb.putInt(0x10, HASHED_DATA_LENGTH);
-                bb.put(0x20, DUMMY_MD5, 0x00, DUMMY_MD5.length);
+                int index = 0x20;
+                for (byte b : DUMMY_MD5) {
+                    bb.put(index++, b);
+                }
                 bb.putInt(0x30, HASHED_DATA_LENGTH);
-                bb.put(0x40, DUMMY_MD5, 0x00, DUMMY_MD5.length);
+                index = 0x40;
+                for (byte b : DUMMY_MD5) {
+                    bb.put(index++, b);
+                }
                 System.out.println("Editing chapter number...");
                 bb.putShort(0x20C, CHAPTER_NUM);
                 System.out.println("Writing save file...");

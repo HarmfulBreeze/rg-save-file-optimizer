@@ -1,6 +1,8 @@
+import com.palantir.gradle.graal.NativeImageTask
+
 plugins {
     application
-    id("org.beryx.runtime") version "1.12.2"
+    id("com.palantir.graal") version "0.7.2"
 }
 
 group = "com.piorrro33"
@@ -10,21 +12,22 @@ application {
     mainClass.set("com.piorrro33.rgsavefileoptimizer.Main")
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(16))
+tasks.withType<NativeImageTask>().configureEach {
+    java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(11))
+        }
     }
 }
 
-runtime {
-    addOptions("--strip-debug", "--compress", "2", "--no-header-files", "--no-man-pages")
-    modules.addAll("java.base")
-    jpackage {
-        appVersion = "0.1"
-        outputDir = "jpackage/${project.name}-${project.version}"
-        imageOptions = listOf("--win-console")
-        skipInstaller = true
-    }
+val vsVarsPath: String by project
+graal {
+    graalVersion("21.0.0.2")
+    javaVersion("11")
+    outputName(project.name)
+    mainClass(application.mainClass.get())
+    windowsVsVarsPath(vsVarsPath)
+    option("--static")
 }
 
 repositories {
@@ -41,10 +44,9 @@ dependencies {
 
 tasks.withType<JavaCompile> {
     options.compilerArgs.add("-Aproject=${project.group}/${project.name}")
-    options.release.set(16)
-    // Hack for Java 16 support
+    options.release.set(11)
+    // Hack for JDK 16 support
     options.isIncremental = false
-//    options.forkOptions.jvmArgs?.addAll(listOf("--add-opens", "jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED"))
 }
 
 tasks.getByName<Test>("test") {
