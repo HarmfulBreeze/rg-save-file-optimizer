@@ -20,9 +20,10 @@ runtime {
     addOptions("--strip-debug", "--compress", "2", "--no-header-files", "--no-man-pages")
     modules.addAll("java.base")
     jpackage {
-        appVersion = "0.2"
+        appVersion = "0.1"
         outputDir = "jpackage/${project.name}-${project.version}"
         imageOptions = listOf("--win-console")
+        skipInstaller = true
     }
 }
 
