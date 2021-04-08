@@ -4,6 +4,7 @@ import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.ExitCode;
 import picocli.CommandLine.Parameters;
+import picocli.CommandLine.ParseResult;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -31,7 +32,7 @@ public class Main implements Callable<Integer> {
     private Path[] filePaths;
 
     public static void main(String[] args) {
-        int exitCode = new CommandLine(new Main()).execute(args);
+        int exitCode = new CommandLine(new Main()).setExecutionExceptionHandler(Main::handleExecutionException).execute(args);
         System.exit(exitCode);
     }
 
@@ -43,6 +44,11 @@ public class Main implements Callable<Integer> {
                                   + Character.digit(s.charAt(i + 1), 16));
         }
         return data;
+    }
+
+    private static int handleExecutionException(Exception ex, CommandLine commandLine, ParseResult parseResult) {
+        System.err.println("An exception has occurred when running the command!" + ex.getMessage());
+        return 1;
     }
 
     @Override
