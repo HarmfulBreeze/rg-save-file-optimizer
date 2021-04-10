@@ -20,13 +20,13 @@ tasks.withType<NativeImageTask>().configureEach {
     }
 }
 
-val vsVarsPath: String by project
+val vsVarsPath: String? by project
 graal {
     graalVersion("21.0.0.2")
     javaVersion("11")
     outputName(project.name)
     mainClass(application.mainClass.get())
-    windowsVsVarsPath(vsVarsPath)
+    if (vsVarsPath != null) windowsVsVarsPath(vsVarsPath)
     option("--static")
 }
 
