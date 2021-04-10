@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.piorrro33"
-version = "0.1dev"
+version = "1.0"
 
 application {
     mainClass.set("com.piorrro33.rgsavefileoptimizer.Main")

@@ -22,7 +22,7 @@ import static java.nio.file.StandardOpenOption.WRITE;
         description = "Rogue Galaxy Save File Optimizer", mixinStandardHelpOptions = true)
 public class Main implements Callable<Integer> {
     public static final String APPLICATION_NAME = "rg-save-file-optimizer";
-    public static final String APPLICATION_VERSION = "v0.1dev";
+    public static final String APPLICATION_VERSION = "v1.0";
     public static final int SAVE_FILE_SIZE = 0x1BC00;
     public static final int HASHED_DATA_LENGTH = 1; // Only hash first byte of save data, always 0x00
     public static final byte[] DUMMY_MD5 = hexStringToByteArray("93b885adfe0da089cdf634904fd59f71"); // MD5 of 0x00
